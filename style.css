@@ -1,0 +1,517 @@
+:root {
+  --board-bg: #1e3528;
+  --board-dark: #15261d;
+  --chalk-white: #f4f3ee;
+  --chalk-muted: #c8d3cb;
+  --accent: #f7e479;
+  --wood-light: #8d5524;
+  --wood-dark: #5c3310;
+}
+
+body.chalk-yellow { --accent: #f7e479; }
+body.chalk-blue   { --accent: #8ad8ff; }
+body.chalk-pink   { --accent: #ff9ec7; }
+body.chalk-green  { --accent: #98f5a6; }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #2b2118;
+  background-image: radial-gradient(circle at top, #3d2e22 0%, #1d150e 100%);
+  color: var(--chalk-white);
+  font-family: 'Patrick Hand', cursive, sans-serif;
+  line-height: 1.6;
+  padding: 18px;
+}
+
+/* Moldura de madeira ao redor da lousa */
+.wood-frame {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, var(--wood-light), var(--wood-dark));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+/* Superfície do quadro escolar */
+.blackboard {
+  position: relative;
+  background-color: var(--board-bg);
+  background-image:
+    radial-gradient(ellipse at 25% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 75%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #1b3024 0%, #213a2c 50%, #17291f 100%);
+  border: 3px solid #101e16;
+  border-radius: 8px;
+  padding: 32px 28px 20px;
+  overflow: hidden;
+  transition: filter 0.35s ease, opacity 0.35s ease;
+}
+
+.blackboard.wiping {
+  opacity: 0.25;
+  filter: blur(4px);
+}
+
+.chalk-dust {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 28px 28px;
+  opacity: 0.5;
+}
+
+/* Cabeçalho */
+.board-header {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.board-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--chalk-muted);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(244, 243, 238, 0.25);
+  padding-bottom: 6px;
+}
+
+.board-title {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+  color: var(--accent);
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  margin-bottom: 8px;
+  transition: color 0.25s ease;
+}
+
+.board-subtitle {
+  font-family: 'Kalam', cursive;
+  font-size: 1.15rem;
+  color: var(--chalk-white);
+  max-width: 720px;
+  margin: 0 auto 20px;
+}
+
+/* Controles de Giz */
+.chalk-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.control-label {
+  font-size: 1rem;
+  color: var(--chalk-muted);
+}
+
+.chalk-swatch {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: var(--swatch);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.chalk-swatch:hover,
+.chalk-swatch.active {
+  transform: scale(1.2);
+  border-color: #fff;
+  box-shadow: 0 0 10px var(--swatch);
+}
+
+.board-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--chalk-white);
+  border: 1.5px dashed rgba(244, 243, 238, 0.65);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.board-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.board-btn.small {
+  padding: 4px 10px;
+  font-size: 0.95rem;
+}
+
+.board-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.nav-chalk {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 1.15rem;
+  border-bottom: 2px dashed var(--accent);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+}
+
+.nav-chalk:hover {
+  opacity: 0.8;
+}
+
+.chalk-line {
+  border: none;
+  border-top: 2px dashed rgba(244, 243, 238, 0.35);
+  margin: 28px 0;
+}
+
+/* Seções */
+.board-section {
+  position: relative;
+  z-index: 1;
+}
+
+.section-heading {
+  margin-bottom: 18px;
+}
+
+.section-heading h2 {
+  font-family: 'Fredericka the Great', cursive;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.section-heading p {
+  color: var(--chalk-muted);
+  font-size: 1.05rem;
+}
+
+/* Filtros */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.filter-chip {
+  background: transparent;
+  color: var(--chalk-white);
+  border: 1.5px solid rgba(244, 243, 238, 0.4);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-chip.active {
+  background: var(--accent);
+  color: #16261d;
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+/* Grade de Memórias */
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+.memory-card {
+  background: rgba(15, 29, 21, 0.45);
+  border: 2px dashed rgba(244, 243, 238, 0.45);
+  border-radius: 10px;
+  padding: 18px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.memory-card:hover,
+.memory-card.highlighted {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 0 18px rgba(247, 228, 121, 0.18);
+}
+
+.memory-stage {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--accent);
+  border: 1px dashed var(--accent);
+  border-radius: 6px;
+  padding: 2px 9px;
+  margin-bottom: 8px;
+}
+
+.memory-card h3 {
+  font-family: 'Kalam', cursive;
+  font-size: 1.35rem;
+  color: var(--chalk-white);
+  margin-bottom: 8px;
+}
+
+.memory-card p {
+  font-size: 1.08rem;
+  color: #e7ece8;
+}
+
+/* Barra de Busca e Redações */
+.essay-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.chalk-input {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(12, 24, 17, 0.65);
+  border: 1.5px dashed rgba(244, 243, 238, 0.55);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: var(--chalk-white);
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.05rem;
+  outline: none;
+}
+
+.chalk-input:focus {
+  border-color: var(--accent);
+}
+
+.essay-counter {
+  color: var(--chalk-muted);
+  font-size: 0.98rem;
+  margin-bottom: 14px;
+}
+
+.essays-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 16px;
+}
+
+.essay-card {
+  background: rgba(16, 31, 23, 0.55);
+  border: 1.5px solid rgba(244, 243, 238, 0.35);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.essay-card:hover {
+  border-color: var(--accent);
+  background: rgba(24, 46, 34, 0.8);
+  transform: translateY(-2px);
+}
+
+.essay-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.essay-card h3 {
+  font-family: 'Kalam', cursive;
+  font-size: 1.18rem;
+  color: var(--chalk-white);
+  line-height: 1.35;
+}
+
+.essay-preview {
+  font-size: 0.98rem;
+  color: var(--chalk-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read-link {
+  color: var(--accent);
+  font-size: 1rem;
+  align-self: flex-start;
+  border-bottom: 1px dashed var(--accent);
+}
+
+/* Bandeja da Lousa */
+.chalk-tray {
+  margin-top: 34px;
+  padding-top: 14px;
+  border-top: 4px solid #47280d;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.tray-items {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chalk-stick {
+  display: inline-block;
+  width: 34px;
+  height: 9px;
+  border-radius: 4px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.chalk-stick.yellow { background: #f7e479; transform: rotate(-6deg); }
+.chalk-stick.white  { background: #f4f3ee; transform: rotate(4deg); }
+.chalk-stick.blue   { background: #8ad8ff; transform: rotate(-3deg); }
+.chalk-stick.pink   { background: #ff9ec7; transform: rotate(7deg); }
+
+.eraser-block {
+  background: #3b2a1e;
+  color: #f4f3ee;
+  border: 2px solid #75543c;
+  border-bottom: 5px solid #c9c3b8;
+  border-radius: 5px;
+  padding: 4px 12px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.footer-note {
+  color: var(--chalk-muted);
+  font-size: 0.95rem;
+}
+
+/* Modal Leitor */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 100;
+}
+
+.modal-backdrop[hidden] {
+  display: none;
+}
+
+.modal-board {
+  background: #1b3125;
+  border: 6px solid var(--wood-light);
+  border-radius: 12px;
+  max-width: 760px;
+  width: 100%;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+.modal-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.modal-badge {
+  color: var(--accent);
+  border: 1px dashed var(--accent);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.modal-title {
+  font-family: 'Kalam', cursive;
+  font-size: 1.45rem;
+  color: var(--accent);
+  margin-bottom: 14px;
+  border-bottom: 1px dashed rgba(244, 243, 238, 0.3);
+  padding-bottom: 8px;
+}
+
+.modal-body {
+  overflow-y: auto;
+  font-family: 'Kalam', cursive;
+  font-size: 1.15rem;
+  line-height: 1.75;
+  color: var(--chalk-white);
+  padding-right: 6px;
+}
+
+.modal-body p {
+  margin-bottom: 14px;
+  text-indent: 1.5rem;
+}
+
+.modal-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(244, 243, 238, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  body { padding: 8px; }
+  .wood-frame { padding: 8px; }
+  .blackboard { padding: 20px 14px; }
+  .board-meta { flex-direction: column; gap: 4px; text-align: center; }
+}
