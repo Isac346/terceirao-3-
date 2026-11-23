@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lousa de Memórias & Portfólio Literário - 3º Ano EM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Kalam:wght@300;400;700&family=Patrick+Hand&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="chalk-yellow">
+  <div class="wood-frame">
+    <main class="blackboard" id="blackboard">
+      <!-- Efeito de poeira de giz -->
+      <div class="chalk-dust" aria-hidden="true"></div>
+
+      <!-- Cabeçalho da Lousa -->
+      <header class="board-header">
+        <div class="board-meta">
+          <span>TURMA: 3º ANO — ENSINO MÉDIO</span>
+          <span id="board-date">LOUSA INTERATIVA</span>
+        </div>
+
+        <h1 class="board-title">Caderno &amp; Lousa: Minha Trajetória Escolar</h1>
+        <p class="board-subtitle">
+          Da creche ao encerramento do Ensino Médio: minhas lembranças e 17 redações escritas ao longo da jornada.
+        </p>
+
+        <!-- Barra de ferramentas de giz -->
+        <div class="chalk-controls" role="toolbar" aria-label="Controles da lousa">
+          <span class="control-label">Cor do giz:</span>
+          <button type="button" class="chalk-swatch active" data-color="chalk-yellow" title="Giz Amarelo" style="--swatch: #f7e479;"></button>
+          <button type="button" class="chalk-swatch" data-color="chalk-blue" title="Giz Azul" style="--swatch: #8ad8ff;"></button>
+          <button type="button" class="chalk-swatch" data-color="chalk-pink" title="Giz Rosa" style="--swatch: #ff9ec7;"></button>
+          <button type="button" class="chalk-swatch" data-color="chalk-green" title="Giz Verde" style="--swatch: #98f5a6;"></button>
+
+          <button type="button" class="board-btn" id="btn-random-memory">🎲 Sortear Memória</button>
+          <button type="button" class="board-btn" id="btn-wipe-board">🧽 Passar Apagador</button>
+        </div>
+
+        <nav class="board-nav">
+          <a href="#memorias" class="nav-chalk">1. Minhas Memórias Escolares</a>
+          <a href="#redacoes" class="nav-chalk">2. Portfólio de 17 Redações</a>
+        </nav>
+      </header>
+
+      <hr class="chalk-line" />
+
+      <!-- SEÇÃO 1: MEMÓRIAS ESCOLARES -->
+      <section id="memorias" class="board-section">
+        <div class="section-heading">
+          <h2>1. Linha do Tempo: Da Creche ao 3º Ano</h2>
+          <p>Clique nas etapas para filtrar ou passe o mouse nos quadros para destacar o giz.</p>
+        </div>
+
+        <div class="filter-bar" id="memory-filters">
+          <button type="button" class="filter-chip active" data-stage="all">Todas as Fases (6)</button>
+          <button type="button" class="filter-chip" data-stage="infancia">Creche &amp; Pré-Escola</button>
+          <button type="button" class="filter-chip" data-stage="fund1">Fundamental I</button>
+          <button type="button" class="filter-chip" data-stage="fund2">Fundamental II</button>
+          <button type="button" class="filter-chip" data-stage="em">Ensino Médio</button>
+        </div>
+
+        <div class="timeline-grid" id="timeline-container">
+          <!-- Renderizado via JS -->
+        </div>
+      </section>
+
+      <hr class="chalk-line" />
+
+      <!-- SEÇÃO 2: PORTFÓLIO DE 17 REDAÇÕES -->
+      <section id="redacoes" class="board-section">
+        <div class="section-heading">
+          <h2>2. Portfólio Literário: 17 Redações</h2>
+          <p>Selecione qualquer tema abaixo para ler o texto completo escrito na lousa.</p>
+        </div>
+
+        <div class="essay-toolbar">
+          <input
+            type="search"
+            id="essay-search"
+            class="chalk-input"
+            placeholder="🔍 Buscar redação por palavra ou tema..."
+            aria-label="Buscar redação"
+          />
+
+          <div class="filter-bar" id="essay-filters">
+            <button type="button" class="filter-chip active" data-cat="all">Todas (17)</button>
+            <button type="button" class="filter-chip" data-cat="Meio Ambiente">Meio Ambiente</button>
+            <button type="button" class="filter-chip" data-cat="Tecnologia">Tecnologia</button>
+            <button type="button" class="filter-chip" data-cat="Saúde">Saúde &amp; Estética</button>
+            <button type="button" class="filter-chip" data-cat="Sociedade">Sociedade &amp; Cultura</button>
+          </div>
+
+          <button type="button" class="board-btn" id="btn-random-essay">📖 Ler Redação Aleatória</button>
+        </div>
+
+        <p class="essay-counter" id="essay-counter">Exibindo 17 de 17 redações</p>
+
+        <div class="essays-grid" id="essays-grid">
+          <!-- Renderizado via JS -->
+        </div>
+      </section>
+
+      <!-- Bandeja inferior do quadro com giz e apagador -->
+      <footer class="chalk-tray">
+        <div class="tray-items">
+          <span class="chalk-stick yellow" title="Giz Amarelo"></span>
+          <span class="chalk-stick white" title="Giz Branco"></span>
+          <span class="chalk-stick blue" title="Giz Azul"></span>
+          <span class="chalk-stick pink" title="Giz Rosa"></span>
+          <button type="button" class="eraser-block" id="tray-eraser" title="Clique para limpar e restaurar a lousa">
+            APAGADOR
+          </button>
+        </div>
+        <p class="footer-note">Encerramento do Ensino Médio • Desenvolvido com HTML, CSS e JavaScript</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- MODAL DE LEITURA DA REDAÇÃO -->
+  <div class="modal-backdrop" id="essay-modal" hidden>
+    <div class="modal-board" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-top">
+        <span class="modal-badge" id="modal-badge">Redação #01</span>
+        <div class="modal-actions">
+          <button type="button" class="board-btn small" id="font-dec" title="Diminuir letra">A-</button>
+          <button type="button" class="board-btn small" id="font-inc" title="Aumentar letra">A+</button>
+          <button type="button" class="board-btn small" id="copy-essay">📋 Copiar</button>
+          <button type="button" class="board-btn small close-btn" id="close-modal">✕ Fechar</button>
+        </div>
+      </div>
+
+      <h3 class="modal-title" id="modal-title">Título da Redação</h3>
+      <div class="modal-body" id="modal-body"></div>
+
+      <div class="modal-footer">
+        <button type="button" class="board-btn" id="prev-essay">← Anterior</button>
+        <span id="modal-progress">1 / 17</span>
+        <button type="button" class="board-btn" id="next-essay">Próxima →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
+
